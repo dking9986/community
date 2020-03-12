@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet"href="css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/community.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"type="application/javascript"></script>
 
@@ -44,12 +45,37 @@
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
-    <div class="container-fluid">
+</nav><!--nav> 标签定义导航链接的部分。-->
+    <div class="container-fluid main">
         <div class="row">
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="background-color: red;height: 300px"></div><!-- 代表不同屏幕的时候尺寸是多大lg是大屏 md小屏 sm平板 xs手机  -->
-            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="background-color: green;height: 300px"></div>
+            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12"><!-- 代表不同屏幕的时候尺寸是多大lg是大屏 md小屏 sm平板 xs手机  -->
+                <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  发起</h2>
+                <hr><!-- 分割线-->
+                <form action=""><!-- action是当你填写表单的submit的时候提交的地址 -->
+                    <div class="form-group">
+                        <label for="title">问题标题:</label>
+                        <input type="test" class="form-control" id="title" name="title" placeholder="标题"><!-- 输入栏 (一横行)-->
+                    </div>
+                    <div class="form-group">
+                        <label for="title">问题详情:</label>
+                        <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea><!-- 文本栏（大块）-->
+                    </div>
+                    <div class="form-group">
+                        <label for="tag">添加标签</label>
+                        <input type="test" class="form-control" id="tag" name="tag" placeholder="标签 ，分隔"><!-- 输入栏 (一横行)-->
+                    </div>
+                    <button type="button" class="btn btn-success btn-publish">发布</button>
+                </form>
+            </div>
+            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+                <h3>问题发起指南</h3><!-- h几表示字号大小-->
+                对问题描述要求<br><!--br换行-->
+                标题不超过20个字<br>
+                详细<br>
+                彻底<br>
+                牛逼<br>
+            </div>
         </div>
     </div>
-</nav>
 </body>
 </html>
