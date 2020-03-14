@@ -51,20 +51,29 @@
             <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12"><!-- 代表不同屏幕的时候尺寸是多大lg是大屏 md小屏 sm平板 xs手机  -->
                 <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>  发起</h2>
                 <hr><!-- 分割线-->
-                <form action=""><!-- action是当你填写表单的submit的时候提交的地址 -->
+                <form action="/publish" method="post"><!-- action是当你填写表单的submit的时候提交的地址 如果是get方法就是执行页面，如果是post就会执行请求-->
                     <div class="form-group">
                         <label for="title">问题标题:</label>
-                        <input type="test" class="form-control" id="title" name="title" placeholder="标题"><!-- 输入栏 (一横行)-->
+                        <input type="text" class="form-control" th:value="${title}" id="title" name="title" placeholder="标题"><!-- 输入栏 (一横行)-->
                     </div>
                     <div class="form-group">
-                        <label for="title">问题详情:</label>
-                        <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea><!-- 文本栏（大块）-->
+                        <label for="description">问题详情:</label>
+                        <textarea class="form-control" th:text="${description}"name="description" id="description" cols="30" rows="10"></textarea><!-- 文本栏（大块）-->
                     </div>
                     <div class="form-group">
                         <label for="tag">添加标签</label>
-                        <input type="test" class="form-control" id="tag" name="tag" placeholder="标签 ，分隔"><!-- 输入栏 (一横行)-->
+                        <input type="text" class="form-control" th:value="${tag}" id="tag" name="tag" placeholder="标签 ，分隔"><!-- ${表示接受从后端传来的数据}-->
                     </div>
-                    <button type="button" class="btn btn-success btn-publish">发布</button>
+                    <div class="container-fluid main">
+                        <div class="row">
+                            <span class="alert alert-danger" th:text="${error}" th:if="${error!=null}"></span>
+                            <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                                <button type="submit" class="btn btn-success btn-publish">
+                                发布
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
