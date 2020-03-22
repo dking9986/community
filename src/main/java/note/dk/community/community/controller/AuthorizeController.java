@@ -27,18 +27,18 @@ public class AuthorizeController {
     private String redirecturi;
     @Autowired
     private UserMapper userMapper;
-    @GetMapping("/callback")
-    public String callback(@RequestParam(name="code") String code,
-                           @RequestParam(name = "state")String state,
+    @GetMapping("/callback")//返回到callback页面后 执行以下代码 之后重定向回主页
+    public String callback(@RequestParam(name="code") String code,//返回string意思是说返回到一个页面去 登录成功后回到主页 @RequestParam意思是接受参数  前面name的code是key 后面是值
+                           @RequestParam(name = "state")String state,//接受一个code参数和一个state参数 都是github回传来的
                            HttpServletResponse response){//RequestParam用于完成两个参数的接受 HttpServletRequest用于将上下文中的request返回到此处供我们使用  response同前面
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
-        accessTokenDTO.setClient_id(clientid);
-        accessTokenDTO.setClient_secret(clientsecret);
-        accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedirect_uri(redirecturi);
+        accessTokenDTO.setClient_id(clientid);//等于配置文件中的id
+        accessTokenDTO.setClient_secret(clientsecret);//等于配置文件中的secret
+        accessTokenDTO.setCode(code);//等于接受到的参数code
+        accessTokenDTO.setRedirect_uri(redirecturi);//同上
         accessTokenDTO.setState(state);
-        String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser githubuser=githubProvider.getUser(accessToken);
+        String accessToken = githubProvider.getAccessToken(accessTokenDTO);//通过accessTokenDTO得到accesstoken
+        GithubUser githubuser=githubProvider.getUser(accessToken);//通过accessToken得到user
         if (githubuser!=null&&githubuser.getId()!=null){
             //登录成功 写cookies 和session
             User user = new User();
@@ -48,6 +48,7 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubuser.getId()));
             user.setGmtCreate(System.currentTimeMillis());//获取创建时间
             user.setGmtModified(user.getGmtCreate());
+            user.setAvatarUrl(githubuser.getAvatar_url());
             userMapper.insert(user);//对数据库实物的存储代替了session的写入
             //response可以把token存到cookie里面
             response.addCookie(new Cookie("token",token));
