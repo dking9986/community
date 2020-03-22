@@ -16,4 +16,8 @@ public interface QuestionMapper {
     List<Question> list(@Param(value = "offset") Integer offset,@Param(value = "size") Integer size);//传非类对象的时候要用@Param此注解
     @Select("select count(1) from question")
     Integer count();
+    @Select("select * from question where creator=#{accountId} limit #{offset},#{size}")
+    List<Question> listByAccountId(@Param(value = "accountId") String accountId, @Param(value = "offset")Integer offset, @Param(value = "size") Integer size);
+    @Select("select count(1) from question where creator=#{accountId}")
+    Integer countByAccountId(@Param(value = "accountId") String accountId);
 }

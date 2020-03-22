@@ -10,7 +10,7 @@ public class Question {//model是数据库的表模型
     private String tag;
     private Long gmtCreate;
     private Long gmtModified;
-    private Integer creator;
+    private String creator;
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;

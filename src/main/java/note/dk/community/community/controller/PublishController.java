@@ -27,7 +27,7 @@ public class PublishController {
     @PostMapping("/publish")
     public String doPulish(@RequestParam("title") String title,
                            @RequestParam("description") String description,
-                           @RequestParam("tag") String tag,   //与html页面中的 id 相同
+                           @RequestParam("tag") String tag,   //与html页面中的 id 相同 从前端页面接受这三个参数
                            HttpServletRequest request,
                            Model model
                            ){
@@ -70,7 +70,7 @@ public class PublishController {
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
-        question.setCreator(user.getId());
+        question.setCreator(user.getAccountId());
         question.setGmtCreate(System.currentTimeMillis());
         question.setGmtModified(question.getGmtModified());
         questionMapper.create(question);

@@ -1,27 +1,26 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>DKnote</title>
+    <title th th:text="${sectionName}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet"href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/community.css"><!--rel 属性指示被链接的文档是一个样式表-->
+    <link rel="stylesheet"href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css"><!--rel 属性指示被链接的文档是一个样式表-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js"type="application/javascript"></script>
 
 </head>
 <body>
 <div th:insert="~{navigation::nav}"></div>
-<div class="container-fluid main">
+<div class="container-fluid main profile">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12"><!-- 代表不同屏幕的时候尺寸是多大lg是大屏 md小屏 sm平板 xs手机  -->
-            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span>  发现</h2><!--class是指这个部件的类型 如按钮之类的 此类型是列表-->
+            <h2><span th:text="${sectionName}" ></span> </h2><!--class是指这个部件的类型 如按钮之类的 此类型是列表-->
             <hr><!-- 分割线-->
             <div class="media" th:each="question : ${pagination.questions}"><!--each是遍历相当于for each -->
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-circle" th:src="${question.user.avatarUrl}"  >
-                        </span>
                     </a>
                 </div>
                 <div class="media-body">
@@ -58,7 +57,13 @@
             </nav>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
-            <h3>热门话题</h3><!-- h几表示字号大小-->
+            <div class="list-group section">
+                <a href="/profile/questions"  th:class="${section=='questions'}? 'list-group-item active':'list-group-item'">我的问题</a>
+                <a href="/profile/replies"  th:class="${section=='replies'}? ' list-group-item active':'list-group-item'">
+                    最新回复
+                    <span class="badge">14</span>
+                </a>
+            </div>
         </div>
     </div>
 </div>
