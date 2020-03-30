@@ -23,3 +23,7 @@ body{
 .profile .section{
     margin-top: 15px;
 }
+.commenu{/*编辑按钮*/
+    font-size: 13px;
+    color: #999;
+}

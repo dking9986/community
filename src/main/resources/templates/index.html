@@ -3,11 +3,11 @@
 <head>
     <title>DKnote</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet"href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/community.css"><!--rel 属性指示被链接的文档是一个样式表-->
+    <link rel="stylesheet"href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css"><!--rel 属性指示被链接的文档是一个样式表-->
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"type="application/javascript"></script>
+    <script src="/js/bootstrap.min.js"type="application/javascript"></script>
 
 </head>
 <body>
@@ -25,7 +25,9 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <h4 class="media-heading" >
+                        <a th:text="${question.title} " th:href="@{'/question/'+${question.id}}"></a>
+                    </h4>
                     <span th:text="${question.description}"></span><br>
                     <span class="text-a"><span th:text="${question.commentCount}"></span>  个回复  <span th:text="${question.viewCount}"></span>  次浏览  <span th:text="${#dates.format(question.gmtCreate,'yyyy-MM-dd HH:mm')}"></span> </span>
                 </div>

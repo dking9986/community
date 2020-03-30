@@ -13,7 +13,7 @@
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                     <span class="sr-only">DK社区</span>
                 </button>
-                <a class="navbar-brand" href="#">DK社区</a>
+                <a class="navbar-brand" href="/">DK社区</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -36,7 +36,7 @@
                         <ul class="dropdown-menu">
                             <li><a href="/profile/questions">我的问题</a></li> <!--profile是指我自己的目录-->
                             <li><a href="#">个人中心</a></li>
-                            <li><a href="#">退出登录</a></li>
+                            <li><a href="/logout">退出登录</a></li>
                         </ul>
                     </li>
                     <li th:unless="not ${session.user==null}">

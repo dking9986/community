@@ -5,6 +5,7 @@ import note.dk.community.community.dto.GithubUser;
 import note.dk.community.community.mapper.UserMapper;
 import note.dk.community.community.model.User;
 import note.dk.community.community.provider.GithubProvider;
+import note.dk.community.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -27,6 +29,8 @@ public class AuthorizeController {
     private String redirecturi;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private UserService userService;
     @GetMapping("/callback")//返回到callback页面后 执行以下代码 之后重定向回主页
     public String callback(@RequestParam(name="code") String code,//返回string意思是说返回到一个页面去 登录成功后回到主页 @RequestParam意思是接受参数  前面name的code是key 后面是值
                            @RequestParam(name = "state")String state,//接受一个code参数和一个state参数 都是github回传来的
@@ -46,10 +50,8 @@ public class AuthorizeController {
             user.setToken(token);//UUID 的目的，是让分布式系统中的所有元素，都能有唯一的辨识资讯，而不需要透过中央控制端来做辨识资讯的指定。如此一来，每个人都可以建立不与其它人冲突的 UUID。在这样的情况下，就不需考虑数据库建立时的名称重复问题。
             user.setName(githubuser.getName());
             user.setAccountId(String.valueOf(githubuser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());//获取创建时间
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubuser.getAvatar_url());
-            userMapper.insert(user);//对数据库实物的存储代替了session的写入
+            userService.createOrUpdate(user);//对数据库实物的存储代替了session的写入 要么更新原来的账户信息 要么就插入新的账号信息
             //response可以把token存到cookie里面
             response.addCookie(new Cookie("token",token));
 
@@ -59,5 +61,14 @@ public class AuthorizeController {
             //登录失败，重新登录
             return "redirect:/";
         }
+    }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,//设置session
+                         HttpServletResponse response){//设置cookie
+        request.getSession().removeAttribute("user");//去除session中的user信息
+        Cookie cookie=new Cookie("token",null);//去除tokencookie
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 }

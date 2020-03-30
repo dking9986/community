@@ -1,7 +1,6 @@
 package note.dk.community.community.controller;
 
 import note.dk.community.community.dto.PaginationDTO;
-import note.dk.community.community.mapper.UserMapper;
 import note.dk.community.community.model.User;
 import note.dk.community.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class ProfileController {
 
-    @Autowired
-    private UserMapper userMapper;
     @Autowired
     private QuestionService questionService;
     @GetMapping("/profile/{action}")
@@ -27,20 +23,7 @@ public class ProfileController {
                           Model model,
                           @RequestParam(name = "page",defaultValue = "1") Integer page,//从前端接受的参数页码 不传就是0
                           @RequestParam(name = "size",defaultValue = "5") Integer size){
-        Cookie[] cookies=request.getCookies();
-        User user=null;
-        if(cookies!=null&&cookies.length>0) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                     user = userMapper.findByToken(token);
-                    if (user != null) {//即找到了数据库中存在的token 就将此token对应user放入session中
-                        request.getSession().setAttribute("user", user);//request把user信息保存到session中
-                    }
-                    break;
-                }
-            }
-        }
+        User user=(User)request.getSession().getAttribute("user");//从session中取出user字段 赋值成user
         if (user==null){
             return "redirect:/";
         }

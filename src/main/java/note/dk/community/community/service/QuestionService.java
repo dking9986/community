@@ -49,7 +49,7 @@ public class QuestionService {
 
     public PaginationDTO list(String AccountId, Integer page, Integer size) {//找所有自己发布的问题
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalcount=questionMapper.countByAccountId(AccountId);//总问题条数
+        Integer totalcount=questionMapper.countByAccountId(AccountId);//对应Id的总问题条数
         paginationDTO.setPagination(totalcount,page,size);//给paginationDTO里面除了question表以外的设置好 然后返回出去
         if (page<1){
             page=1;
@@ -71,5 +71,29 @@ public class QuestionService {
         }
         paginationDTO.setQuestions(questionDTOS);//将questionDTOS设置到paginationDTO中的questions表里去
         return paginationDTO;//在indexcontroller中调用
+    }
+
+    public QuestionDTO getById(Integer id) {
+        Question question=questionMapper.getById(id);
+        QuestionDTO questionDTO=new QuestionDTO();
+        BeanUtils.copyProperties(question,questionDTO);//将question与questionDTO共有的元素写入到questionDTO中
+        User user=userMapper.findByAccountId(question.getCreator());//通过Creator找到对应的userUser user=userMapper.findByAccountId(question.getCreator());//通过Creator找到对应的user
+        questionDTO.setUser(user);
+        return questionDTO;
+
+    }
+
+    public void createOrUpdate(Question question) {
+        if (question.getId()==null){
+            //第一次创建该方法
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(question.getGmtModified());
+            questionMapper.create(question);
+        }else {
+            //已经有了该方法 则更新方法
+            question.setGmtModified(question.getGmtModified());
+            questionMapper.update(question);
+
+        }
     }
 }
