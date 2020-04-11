@@ -2,6 +2,8 @@ package note.dk.community.community.service;
 
 import note.dk.community.community.dto.PaginationDTO;
 import note.dk.community.community.dto.QuestionDTO;
+import note.dk.community.community.exception.CustomizeErrorCode;
+import note.dk.community.community.exception.CustomizeException;
 import note.dk.community.community.mapper.QuestionMapper;
 import note.dk.community.community.mapper.UserMapper;
 import note.dk.community.community.model.Question;
@@ -34,7 +36,6 @@ public class QuestionService {
         }
         //上面的代码写在前面能保证page不会溢出
         Integer offset=size*(page-1);//page页码 size每页个数 offset是显示的开始位置
-
         List<Question> questions=questionMapper.selectByExampleWithRowbounds(new QuestionExample(),new RowBounds(offset,size));
         List<QuestionDTO> questionDTOS=new ArrayList<>();//dto列表用于存到前端去的列表 比上面question多了user信息
 
@@ -89,6 +90,9 @@ public class QuestionService {
 
     public QuestionDTO getById(Integer id) {
         Question question=questionMapper.selectByPrimaryKey(id);
+        if (question==null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);//用枚举的方法 当没有此题目的时候直接返回错误信息
+        }
         QuestionDTO questionDTO=new QuestionDTO();
         BeanUtils.copyProperties(question,questionDTO);//将question与questionDTO共有的元素写入到questionDTO中
         UserExample userExample = new UserExample();
@@ -114,8 +118,11 @@ public class QuestionService {
             updatequestion.setTag(question.getTag());
             QuestionExample questionExample = new QuestionExample();
             questionExample.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updatequestion, questionExample);
 
+            int updated=questionMapper.updateByExampleSelective(updatequestion, questionExample);
+            if (updated!=1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);//用枚举的方法 当没有更新题目的时候直接返回错误信息
+            }
         }
     }
 }

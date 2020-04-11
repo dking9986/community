@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>DKnote</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet"href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/community.css"><!--rel 属性指示被链接的文档是一个样式表-->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"type="application/javascript"></script>
+
+</head>
+<body>
+<div th:insert="~{navigation::nav}"></div>
+<div class="jumbotron">
+    <h1>出错了</h1>
+    <p th:text="${message}">重启试试</p>
+    <p><a class="btn btn-primary btn-lg" href="/" role="button">返回主页</a></p>
+</div>
+</body>
+</html>
